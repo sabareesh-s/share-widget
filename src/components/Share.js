@@ -9,10 +9,13 @@ import {
   Popover,
   Divider,
   Switch,
-  FormControlLabel,
   Avatar,
   Autocomplete,
-  TextField
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
+  TextField,
 } from "@mui/material";
 
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -20,35 +23,11 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import InsertLinkOutlinedIcon from "@mui/icons-material/InsertLinkOutlined";
 
 const names = [
-  { title: 'Tom Cook', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
-  { title: 'The Godfather: Part II', year: 1974 },
-  { title: 'The Dark Knight', year: 2008 },
-  { title: '12 Angry Men', year: 1957 },
-  { title: "Schindler's List", year: 1993 },
-  { title: 'Pulp Fiction', year: 1994 },
-  {
-    title: 'The Lord of the Rings: The Return of the King',
-    year: 2003,
-  },
-  { title: 'The Good, the Bad and the Ugly', year: 1966 },
-  { title: 'Fight Club', year: 1999 },
-  {
-    title: 'The Lord of the Rings: The Fellowship of the Ring',
-    year: 2001,
-  },
-  {
-    title: 'Star Wars: Episode V - The Empire Strikes Back',
-    year: 1980,
-  },
-  { title: 'Forrest Gump', year: 1994 },
-  { title: 'Inception', year: 2010 },
-  {
-    title: 'The Lord of the Rings: The Two Towers',
-    year: 2002,
-  },
-  { title: "One Flew Over the Cuckoo's Nest", year: 1975 },
-  { title: 'Goodfellas', year: 1990 },
+  { name: "Tim Cook" },
+  { name: "Kim Brooks" },
+  { name: "Erika Gonzalez" },
+  { name: "Margarita Patterson " },
+  { name: "Percy French" },
 ];
 
 const AntSwitch = styled(Switch)(({ theme }) => ({
@@ -124,6 +103,25 @@ function Share({ label, size: mode = "dark" }) {
   };
 
   const openList = Boolean(listAnchorEl);
+
+  const [value, setValue] = React.useState(names[0]);
+  const [inputValue, setInputValue] = React.useState("");
+  const [userList, setUserList] = React.useState();
+
+  React.useEffect(() => {
+    console.log("userList", userList);
+  }, [userList]);
+
+  const [permission, setPermission] = React.useState("");
+
+  const handlePermissionChange = (event) => {
+    setPermission(event.target.value);
+  };
+
+  const handleInvite = () => {
+    setUserList(value);
+    setListAnchorEl(null);
+  };
 
   return (
     <div>
@@ -218,7 +216,7 @@ function Share({ label, size: mode = "dark" }) {
             <Typography variant="caption">People, emails, groups </Typography>
           </button>
           <button
-          onClick={handleSearchClick}
+            onClick={handleSearchClick}
             style={{
               appearance: "none",
               backgroundColor: "#F3F4F6",
@@ -249,6 +247,7 @@ function Share({ label, size: mode = "dark" }) {
             <Typography variant="caption">Invite</Typography>
           </button>
         </div>
+
         <div
           style={{
             display: "flex",
@@ -301,6 +300,64 @@ function Share({ label, size: mode = "dark" }) {
             />
           </div>
         </div>
+
+        {userList &&
+          userList.map((item) => {
+            return (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: "5px",
+                  alignItems: "center",
+                  marginTop: "10px",
+                  marginBottom: "10px",
+                  marginLeft: "18px",
+                  marginRight: "18px",
+                  justifyContent: "space-between",
+                  width: "320px",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: "5px",
+                    alignItems: "center",
+                  }}
+                >
+                  <Avatar
+                    sx={{
+                      height: "35px",
+                      width: "35px",
+                      marginRight: "8px",
+                    }}
+                    
+                  > {item.name.substring(0,1)}</Avatar>
+                  <div>
+                    <Typography variant="subtitle2">{item.name}</Typography>
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: "3px",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography variant="caption">{permission}</Typography>
+                  <KeyboardArrowDownIcon
+                    sx={{
+                      fontSize: "15px",
+                    }}
+                  />
+                </div>
+              </div>
+            );
+          })}
+
         <Divider />
         <div
           style={{
@@ -352,35 +409,102 @@ function Share({ label, size: mode = "dark" }) {
         anchorEl={listAnchorEl}
         onClose={handleListClose}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
+          vertical: "bottom",
+          horizontal: "left",
         }}
         transformOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
+          vertical: "bottom",
+          horizontal: "left",
         }}
         anchorPosition={{ top: 200, left: 420 }}
       >
-        <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>
-            
-      <Autocomplete
-        multiple
-        id="tags-outlined"
-        options={names}
-        getOptionLabel={(option) => option.title}
-        defaultValue={[names[13]]}
-        filterSelectedOptions
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Search emails, names or groups"
-            placeholder="Favorites"
-          />
-        )}
-      />
+        <div
+          style={{
+            display: "flex",
+            width: "600px",
+            flexDirection: "column",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              margin: "15px",
+              flexDirection: "row",
+              gap: "10px",
+            }}
+          >
+            <Autocomplete
+              fullWidth
+              onChange={(event, newValue) => {
+                setValue(newValue);
+              }}
+              inputValue={inputValue}
+              onInputChange={(event, newInputValue) => {
+                setInputValue(newInputValue);
+              }}
+              multiple
+              id="tags-outlined"
+              options={names}
+              getOptionLabel={(option) => option.name}
+              filterSelectedOptions
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Search names"
+                  placeholder="Favorites"
+                />
+              )}
+              size="small"
+            />
+
+            <FormControl sx={{ minWidth: 130 }} size="small">
+              <InputLabel id="demo-simple-select-label">Permission</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={permission}
+                label="Permission"
+                onChange={handlePermissionChange}
+              >
+                <MenuItem value={"Full access"}>Full access</MenuItem>
+                <MenuItem value={"Can edit"}>Can edit</MenuItem>
+                <MenuItem value={"Can view"}>Can view</MenuItem>
+                <MenuItem value={"No access"}>No access</MenuItem>
+              </Select>
+            </FormControl>
+
+            <Button onClick={handleInvite}>invite</Button>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "7px",
+              backgroundColor: "#F9FAFB",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: "3px",
+                alignItems: "center",
+              }}
+            >
+              <InfoOutlinedIcon
+                sx={{
+                  fontSize: "15px",
+                }}
+              />
+              <Typography variant="caption">learn about sharing</Typography>
+            </div>
+          </div>
+        </div>
       </Popover>
-
-
     </div>
   );
 }
