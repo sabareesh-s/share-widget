@@ -1,17 +1,17 @@
-import Button from "../components/Button"
+import Share from "../components/Share"
 
 
 export default {
   title: "Components/Button",
-  component: Button,
+  component: Share,
   argTypes: { handleClick: { action: "handleClick" } },
 }
 
-const Template = args => <Button {...args} />
+const Template = args => <Share {...args} />
 
 export const Basic = Template.bind({})
 Basic.args = {
   label: "Share",
-  size: "md",
+  mode: "dark",
 }
 

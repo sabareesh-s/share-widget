@@ -1,8 +1,8 @@
-import Button from './components/Button'
+import Share from './components/Share'
 
 function App() {
   return (
-    <Button label="Share" />
+    <Share label="Share" />
   )
 }
 
