@@ -1,21 +1,386 @@
-import PropTypes from "prop-types";
-import PublicIcon from '@mui/icons-material/Public';
-import {TextField, Button} from '@mui/material';
+import * as React from "react";
 
-function Share({ label, size: mode = "dark", handleClick }) {
+import { styled } from "@mui/material/styles";
+import PropTypes from "prop-types";
+import PublicIcon from "@mui/icons-material/Public";
+import {
+  Button,
+  Typography,
+  Popover,
+  Divider,
+  Switch,
+  FormControlLabel,
+  Avatar,
+  Autocomplete,
+  TextField
+} from "@mui/material";
+
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import InsertLinkOutlinedIcon from "@mui/icons-material/InsertLinkOutlined";
+
+const names = [
+  { title: 'Tom Cook', year: 1994 },
+  { title: 'The Godfather', year: 1972 },
+  { title: 'The Godfather: Part II', year: 1974 },
+  { title: 'The Dark Knight', year: 2008 },
+  { title: '12 Angry Men', year: 1957 },
+  { title: "Schindler's List", year: 1993 },
+  { title: 'Pulp Fiction', year: 1994 },
+  {
+    title: 'The Lord of the Rings: The Return of the King',
+    year: 2003,
+  },
+  { title: 'The Good, the Bad and the Ugly', year: 1966 },
+  { title: 'Fight Club', year: 1999 },
+  {
+    title: 'The Lord of the Rings: The Fellowship of the Ring',
+    year: 2001,
+  },
+  {
+    title: 'Star Wars: Episode V - The Empire Strikes Back',
+    year: 1980,
+  },
+  { title: 'Forrest Gump', year: 1994 },
+  { title: 'Inception', year: 2010 },
+  {
+    title: 'The Lord of the Rings: The Two Towers',
+    year: 2002,
+  },
+  { title: "One Flew Over the Cuckoo's Nest", year: 1975 },
+  { title: 'Goodfellas', year: 1990 },
+];
+
+const AntSwitch = styled(Switch)(({ theme }) => ({
+  width: 28,
+  height: 16,
+  padding: 0,
+  display: "flex",
+  "&:active": {
+    "& .MuiSwitch-thumb": {
+      width: 15,
+    },
+    "& .MuiSwitch-switchBase.Mui-checked": {
+      transform: "translateX(9px)",
+    },
+  },
+  "& .MuiSwitch-switchBase": {
+    padding: 2,
+    "&.Mui-checked": {
+      transform: "translateX(12px)",
+      color: "#fff",
+      "& + .MuiSwitch-track": {
+        opacity: 1,
+        backgroundColor: theme.palette.mode === "dark" ? "#177ddc" : "#1890ff",
+      },
+    },
+  },
+  "& .MuiSwitch-thumb": {
+    boxShadow: "0 2px 4px 0 rgb(0 35 11 / 20%)",
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    transition: theme.transitions.create(["width"], {
+      duration: 200,
+    }),
+  },
+  "& .MuiSwitch-track": {
+    borderRadius: 16 / 2,
+    opacity: 1,
+    backgroundColor:
+      theme.palette.mode === "dark"
+        ? "rgba(255,255,255,.35)"
+        : "rgba(0,0,0,.25)",
+    boxSizing: "border-box",
+  },
+}));
+
+function Share({ label, size: mode = "dark" }) {
   let darkMode = false;
   if (mode === "dark") darkMode = true;
   if (mode === "light") darkMode = false;
 
+  const [popoverAnchor, setPopoverAnchor] = React.useState(null);
+
+  const handleShareClick = (event) => {
+    setPopoverAnchor(event.currentTarget);
+  };
+
+  const handleShareClose = () => {
+    setPopoverAnchor(null);
+  };
+
+  const openPopover = Boolean(popoverAnchor);
+  const id = openPopover ? "simple-popover" : undefined;
+
+  const [listAnchorEl, setListAnchorEl] = React.useState(null);
+
+  const handleSearchClick = (event) => {
+    setListAnchorEl(event.currentTarget);
+  };
+
+  const handleListClose = () => {
+    setListAnchorEl(null);
+  };
+
+  const openList = Boolean(listAnchorEl);
+
   return (
     <div>
-      <Button onClick={handleClick}>
-        {label}
-      </Button>
-      <div>
-      <PublicIcon/>
-      <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-      </div>
+      <Button onClick={handleShareClick}>{label}</Button>
+      <Popover
+        id={id}
+        open={openPopover}
+        anchorEl={popoverAnchor}
+        onClose={handleShareClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "5px",
+            alignItems: "center",
+            margin: "18px",
+            justifyContent: "space-between",
+            width: "320px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "5px",
+              alignItems: "center",
+            }}
+          >
+            <PublicIcon
+              p={5}
+              sx={{
+                fontSize: "30px",
+                marginRight: "10px",
+              }}
+            />
+            <div>
+              <Typography variant="subtitle2">Share to web</Typography>
+              <Typography variant="caption">
+                Publish and share to anyone
+              </Typography>
+            </div>
+          </div>
+
+          <AntSwitch
+            defaultChecked
+            inputProps={{ "aria-label": "ant design" }}
+          />
+        </div>
+        <Divider />
+        <div
+          style={{
+            margin: "10px",
+            padding: "auto",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <button
+            style={{
+              appearance: "none",
+              backgroundColor: "#FAFBFC",
+              border: "1px solid rgba(27, 31, 35, 0.15)",
+              borderRadius: "6px 0px 0px 6px",
+              boxShadow:
+                "rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset",
+              boxSizing: "border-box",
+              color: "#24292E",
+              cursor: "pointer",
+              display: "inline-block",
+              lineHeight: "20px",
+              listStyle: "none",
+              // padding: "6px 16px",
+              position: "relative",
+              transition: "background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+              userSelect: "none",
+              WebkitUserSelect: "none",
+              touchAction: "manipulation",
+              // verticalAlign: "middle",
+              alignItems: "flex-start",
+              whiteSpace: "nowrap",
+              // wordWrap: "break-word",
+              height: "35px",
+              width: "100%",
+            }}
+            onClick={handleSearchClick}
+          >
+            <Typography variant="caption">People, emails, groups </Typography>
+          </button>
+          <button
+          onClick={handleSearchClick}
+            style={{
+              appearance: "none",
+              backgroundColor: "#F3F4F6",
+              border: "1px solid rgba(27, 31, 35, 0.15)",
+              borderRadius: "0px 6px 6px 0px",
+              boxShadow:
+                "rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset",
+              boxSizing: "border-box",
+              color: "#24292E",
+              cursor: "pointer",
+              display: "inline-block",
+              fontSize: "14px",
+              fontWeight: "500",
+              lineHeight: "20px",
+              listStyle: "none",
+              padding: "6px 16px",
+              position: "relative",
+              transition: "background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+              userSelect: "none",
+              WebkitUserSelect: "none",
+              touchAction: "manipulation",
+              verticalAlign: "middle",
+              whiteSpace: "nowrap",
+              wordWrap: "break-word",
+              height: "35px",
+            }}
+          >
+            <Typography variant="caption">Invite</Typography>
+          </button>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "5px",
+            alignItems: "center",
+            marginTop: "10px",
+            marginBottom: "10px",
+            marginLeft: "18px",
+            marginRight: "18px",
+            justifyContent: "space-between",
+            width: "320px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "5px",
+              alignItems: "center",
+            }}
+          >
+            <Avatar
+              sx={{
+                height: "35px",
+                width: "35px",
+                marginRight: "8px",
+              }}
+              src="/broken-image.jpg"
+            />
+            <div>
+              <Typography variant="subtitle2">Everyone at OSlash</Typography>
+              <Typography variant="caption">25 workspace members</Typography>
+            </div>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "3px",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="caption">No access</Typography>
+            <KeyboardArrowDownIcon
+              sx={{
+                fontSize: "15px",
+              }}
+            />
+          </div>
+        </div>
+        <Divider />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "7px",
+            backgroundColor: "#F9FAFB",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "3px",
+              alignItems: "center",
+            }}
+          >
+            <InfoOutlinedIcon
+              sx={{
+                fontSize: "15px",
+              }}
+            />
+            <Typography variant="caption">learn about sharing</Typography>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "3px",
+              alignItems: "center",
+            }}
+          >
+            <InsertLinkOutlinedIcon
+              sx={{
+                fontSize: "15px",
+              }}
+            />
+            <Typography variant="caption">Copy link</Typography>
+          </div>
+        </div>
+      </Popover>
+
+      <Popover
+        id={id}
+        anchorReference="anchorPosition"
+        open={openList}
+        anchorEl={listAnchorEl}
+        onClose={handleListClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        anchorPosition={{ top: 200, left: 420 }}
+      >
+        <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>
+            
+      <Autocomplete
+        multiple
+        id="tags-outlined"
+        options={names}
+        getOptionLabel={(option) => option.title}
+        defaultValue={[names[13]]}
+        filterSelectedOptions
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Search emails, names or groups"
+            placeholder="Favorites"
+          />
+        )}
+      />
+      </Popover>
+
+
     </div>
   );
 }
