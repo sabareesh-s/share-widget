@@ -22,3 +22,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 ### `npm run storybook`
 
 Runs the story created for the component, to test the component. Opens in browser window at [http://localhost:6006](http://localhost:6006)
+
+![image](https://user-images.githubusercontent.com/87223017/190963606-3f6a2d24-3e44-45ee-b6a7-114944b05e48.png)
+(See this screenshot)
