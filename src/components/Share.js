@@ -169,6 +169,7 @@ function Share({ label, button = "primary", backgroundColor = "#ffffff" }) {
               sx={{
                 fontSize: "30px",
                 marginRight: "10px",
+                color: "#6B7280"
               }}
             />
             <div>
@@ -285,6 +286,7 @@ function Share({ label, button = "primary", backgroundColor = "#ffffff" }) {
                 height: "35px",
                 width: "35px",
                 marginRight: "8px",
+                backgroundColor: "#2196f3"
               }}
               src="/broken-image.jpg"
             />
@@ -577,6 +579,7 @@ function Share({ label, button = "primary", backgroundColor = "#ffffff" }) {
                 value={permission}
                 label="Permission"
                 onChange={handlePermissionChange}
+                defaultValue={"Full access"}
               >
                 <MenuItem value={"Full access"}>Full access</MenuItem>
                 <MenuItem value={"Can edit"}>Can edit</MenuItem>
@@ -585,7 +588,7 @@ function Share({ label, button = "primary", backgroundColor = "#ffffff" }) {
               </Select>
             </FormControl>
 
-            <Button onClick={handleInvite}>invite</Button>
+            <Button onClick={handleInvite} variant="outlined">invite</Button>
           </div>
           {value && (
             <div
