@@ -1,5 +1,6 @@
 import * as React from "react";
 
+
 import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import PublicIcon from "@mui/icons-material/Public";
@@ -22,6 +23,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import InsertLinkOutlinedIcon from "@mui/icons-material/InsertLinkOutlined";
 import ShareIcon from '@mui/icons-material/Share';
+
 
 const names = [
   { name: "Tim Cook", type: "person" },
@@ -77,10 +79,7 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-function Share({ label, size: mode = "dark" }) {
-  // let darkMode = false;
-  // if (mode === "dark") darkMode = true;
-  // if (mode === "light") darkMode = false;
+function Share({ label, button = "primary", backgroundColor = "#ffffff" }) {
 
   const [popoverAnchor, setPopoverAnchor] = React.useState(null);
 
@@ -128,9 +127,9 @@ function Share({ label, size: mode = "dark" }) {
   };
 
   return (
-    <div>
+    <div style={{backgroundColor : `${backgroundColor}`}}>
  
-      <Button onClick={handleShareClick} variant="contained" endIcon={<ShareIcon />}>
+      <Button onClick={handleShareClick} color={button} variant="contained" endIcon={<ShareIcon />}>
   {label}
 </Button>
       <Popover
@@ -691,6 +690,7 @@ function Share({ label, size: mode = "dark" }) {
                 </div>
               );
             })}
+            <Divider/>
 
           <div
             style={{
@@ -727,7 +727,7 @@ function Share({ label, size: mode = "dark" }) {
 Share.propTypes = {
   label: PropTypes.string,
   backgroundColor: PropTypes.string,
-  size: PropTypes.oneOf(["sm", "md", "lg"]),
+  button: PropTypes.oneOf(["success", "error", "primary"]),
   handleClick: PropTypes.func,
 };
 

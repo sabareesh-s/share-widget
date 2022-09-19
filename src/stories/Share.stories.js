@@ -9,9 +9,12 @@ export default {
 
 const Template = args => <Share {...args} />
 
-export const Basic = Template.bind({})
-Basic.args = {
+export const Green = Template.bind({})
+Green.args = {
   label: "Share",
-  darkMode: "dark",
+  button: "success"
 }
+
+
+
 
