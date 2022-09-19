@@ -2,6 +2,10 @@
 
 This project is a clone for the Notion share widget. The packages and libraries used are, Material UI v5, React, Mui Icons and Storybook. The screenshots are attached below for you to take a look. To run it in your browser, just clone the github repo and run the script 'npm start'. A live version of the website is hosted here (https://6328132262fea600094cec87--shimmering-daifuku-a5230d.netlify.app/) for your convinience. If you want to run storybook, please clone the repo locally and run 'npm run storybook'.
 
+## User Story
+
+To share the notes file with ease, when the share button is clicked, a 'popover' appears. The interface is very simple, all the important details including an Invite button, and the users currently with access are displayed up front. When the invite button is clicked, it opens another popover for the user to easily access the area to add other users to collaborate in the file. The users and groups are displayed as chips which can be closed individially. This gives the users the flexibility they need to add or remove users with ease. Then, the invite button triggers the function to add all the users or groups with the specific permission set.
+
 ## Share widget
 ![image](https://user-images.githubusercontent.com/87223017/190962226-991fbf9a-2497-48e0-9b5c-bade4414de9a.png)
 
