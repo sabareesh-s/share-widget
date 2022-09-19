@@ -21,13 +21,16 @@ import {
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import InsertLinkOutlinedIcon from "@mui/icons-material/InsertLinkOutlined";
+import ShareIcon from '@mui/icons-material/Share';
 
 const names = [
-  { name: "Tim Cook" },
-  { name: "Kim Brooks" },
-  { name: "Erika Gonzalez" },
-  { name: "Margarita Patterson " },
-  { name: "Percy French" },
+  { name: "Tim Cook", type: "person" },
+  { name: "Kim Brooks", type: "person" },
+  { name: "Erika Gonzalez", type: "person" },
+  { name: "Margarita Patterson ", type: "person" },
+  { name: "Percy French", type: "person" },
+  { name: "Engineering", type: "group" },
+  { name: "Product", type: "group" },
 ];
 
 const AntSwitch = styled(Switch)(({ theme }) => ({
@@ -75,9 +78,9 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 function Share({ label, size: mode = "dark" }) {
-  let darkMode = false;
-  if (mode === "dark") darkMode = true;
-  if (mode === "light") darkMode = false;
+  // let darkMode = false;
+  // if (mode === "dark") darkMode = true;
+  // if (mode === "light") darkMode = false;
 
   const [popoverAnchor, setPopoverAnchor] = React.useState(null);
 
@@ -104,13 +107,13 @@ function Share({ label, size: mode = "dark" }) {
 
   const openList = Boolean(listAnchorEl);
 
-  const [value, setValue] = React.useState(names[0]);
+  const [value, setValue] = React.useState();
   const [inputValue, setInputValue] = React.useState("");
   const [userList, setUserList] = React.useState();
 
   React.useEffect(() => {
-    console.log("userList", userList);
-  }, [userList]);
+    console.log("value", value);
+  }, [value]);
 
   const [permission, setPermission] = React.useState("");
 
@@ -121,11 +124,15 @@ function Share({ label, size: mode = "dark" }) {
   const handleInvite = () => {
     setUserList(value);
     setListAnchorEl(null);
+    setValue();
   };
 
   return (
     <div>
-      <Button onClick={handleShareClick}>{label}</Button>
+ 
+      <Button onClick={handleShareClick} variant="contained" endIcon={<ShareIcon />}>
+  {label}
+</Button>
       <Popover
         id={id}
         open={openPopover}
@@ -134,6 +141,9 @@ function Share({ label, size: mode = "dark" }) {
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "left",
+        }}
+        sx={{
+          marginTop: "10px"
         }}
       >
         <div
@@ -182,6 +192,7 @@ function Share({ label, size: mode = "dark" }) {
             padding: "auto",
             display: "flex",
             alignItems: "center",
+            gap: "-1px"
           }}
         >
           <button
@@ -301,6 +312,20 @@ function Share({ label, size: mode = "dark" }) {
           </div>
         </div>
 
+        {userList && (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              paddingLeft: "15px",
+              marginBottom: "5px"
+            }}
+          >
+            <Typography variant="caption">Selected users</Typography>
+          </div>
+        )}
+
         {userList &&
           userList.map((item) => {
             return (
@@ -310,7 +335,87 @@ function Share({ label, size: mode = "dark" }) {
                   flexDirection: "row",
                   gap: "5px",
                   alignItems: "center",
-                  marginTop: "10px",
+                  // marginTop: "10px",
+                  marginBottom: "5px",
+                  marginLeft: "18px",
+                  marginRight: "18px",
+                  justifyContent: "space-between",
+                  width: "320px",
+                }}
+              >
+                {item.type === "person" ? (
+                  <>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "5px",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Avatar
+                        sx={{
+                          height: "35px",
+                          width: "35px",
+                          marginRight: "8px",
+                        }}
+                      >
+                        {" "}
+                        {item.name.substring(0, 1)}
+                      </Avatar>
+                      <div>
+                        <Typography variant="subtitle2">{item.name}</Typography>
+                      </div>
+                    </div>{" "}
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "3px",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Typography variant="caption">
+                        {permission ? permission : "not configured"}
+                      </Typography>
+                      <KeyboardArrowDownIcon
+                        sx={{
+                          fontSize: "15px",
+                        }}
+                      />
+                    </div>{" "}
+                  </>
+                ) : (
+                  ""
+                )}
+              </div>
+            );
+          })}
+
+        {userList && (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              
+              alignItems: "center",
+              paddingLeft: "15px",
+            }}
+          >
+            <Typography variant="caption">Selected groups</Typography>
+          </div>
+        )}
+
+        {userList &&
+          userList.map((item) => {
+            return (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: "5px",
+                  alignItems: "center",
+                  // marginTop: "-3px",
                   marginBottom: "10px",
                   marginLeft: "18px",
                   marginRight: "18px",
@@ -318,42 +423,53 @@ function Share({ label, size: mode = "dark" }) {
                   width: "320px",
                 }}
               >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    gap: "5px",
-                    alignItems: "center",
-                  }}
-                >
-                  <Avatar
-                    sx={{
-                      height: "35px",
-                      width: "35px",
-                      marginRight: "8px",
-                    }}
-                    
-                  > {item.name.substring(0,1)}</Avatar>
-                  <div>
-                    <Typography variant="subtitle2">{item.name}</Typography>
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    gap: "3px",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography variant="caption">{permission}</Typography>
-                  <KeyboardArrowDownIcon
-                    sx={{
-                      fontSize: "15px",
-                    }}
-                  />
-                </div>
+                {item.type === "group" ? (
+                  <>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "5px",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Avatar
+                       variant="rounded"
+                        sx={{
+                          height: "35px",
+                          width: "35px",
+                          marginRight: "8px",
+                          
+                        }}
+                      >
+                        {" "}
+                        {item.name.substring(0, 1)}
+                      </Avatar>
+                      <div>
+                        <Typography variant="subtitle2">{item.name}</Typography>
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "3px",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Typography variant="caption">
+                        {permission ? permission : "not configured"}
+                      </Typography>
+                      <KeyboardArrowDownIcon
+                        sx={{
+                          fontSize: "15px",
+                        }}
+                      />
+                    </div>{" "}
+                  </>
+                ) : (
+                  ""
+                )}
               </div>
             );
           })}
@@ -409,11 +525,11 @@ function Share({ label, size: mode = "dark" }) {
         anchorEl={listAnchorEl}
         onClose={handleListClose}
         anchorOrigin={{
-          vertical: "bottom",
+          vertical: "top",
           horizontal: "left",
         }}
         transformOrigin={{
-          vertical: "bottom",
+          vertical: "top",
           horizontal: "left",
         }}
         anchorPosition={{ top: 200, left: 420 }}
@@ -449,11 +565,7 @@ function Share({ label, size: mode = "dark" }) {
               getOptionLabel={(option) => option.name}
               filterSelectedOptions
               renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Search names"
-                  placeholder="Favorites"
-                />
+                <TextField {...params} label="Search names or groups" />
               )}
               size="small"
             />
@@ -476,6 +588,109 @@ function Share({ label, size: mode = "dark" }) {
 
             <Button onClick={handleInvite}>invite</Button>
           </div>
+          {value && (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: "5px",
+                alignItems: "center",
+                paddingLeft: "15px",
+                paddingBottom: "8px",
+              }}
+            >
+              <Typography variant="caption">Selected users</Typography>
+            </div>
+          )}
+
+          {value &&
+            value.map((item) => {
+              return (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: "5px",
+                    alignItems: "center",
+                    paddingLeft: "15px",
+                    marginBottom: "5px",
+                  }}
+                >
+                  {item.type === "person" ? (
+                    <>
+                      {" "}
+                      <Avatar
+                        sx={{
+                          height: "28px",
+                          width: "28px",
+                          marginRight: "8px",
+                        }}
+                      >
+                        {" "}
+                        {item.name.substring(0, 1)}
+                      </Avatar>
+                      <div>
+                        <Typography variant="caption">{item.name}</Typography>
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              );
+            })}
+
+          {value && (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: "5px",
+                alignItems: "center",
+                paddingLeft: "15px",
+              }}
+            >
+              <Typography variant="caption">Selected groups</Typography>
+            </div>
+          )}
+
+          {value &&
+            value.map((item) => {
+              return (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: "5px",
+                    alignItems: "center",
+                    paddingLeft: "15px",
+                    marginBottom: "5px",
+                  }}
+                >
+                  {item.type === "group" ? (
+                    <>
+                      {" "}
+                      <Avatar
+                        variant="rounded"
+                        sx={{
+                          height: "28px",
+                          width: "28px",
+                          marginRight: "8px",
+                        }}
+                      >
+                        {" "}
+                        {item.name.substring(0, 1)}
+                      </Avatar>
+                      <div>
+                        <Typography variant="caption">{item.name}</Typography>
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              );
+            })}
 
           <div
             style={{
