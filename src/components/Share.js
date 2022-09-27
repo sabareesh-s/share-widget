@@ -7,7 +7,6 @@ import PublicIcon from "@mui/icons-material/Public";
 import {
   Button,
   Typography,
-  Popover,
   Divider,
   Switch,
   Avatar,
@@ -18,6 +17,8 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+
+import '../styles/styles.css'
 
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
@@ -81,30 +82,21 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
 
 function Share({ label, button = "primary", backgroundColor = "#ffffff" }) {
 
-  const [popoverAnchor, setPopoverAnchor] = React.useState(null);
+  const [popoverShare, setPopoverShare] = React.useState(false);
 
-  const handleShareClick = (event) => {
-    setPopoverAnchor(event.currentTarget);
+  const handleShareClick = () => {
+    setPopoverShare(!popoverShare);
   };
 
-  const handleShareClose = () => {
-    setPopoverAnchor(null);
+
+
+  const [listPopover, setListPopover] = React.useState(false);
+
+  const handleSearchClick = () => {
+    setListPopover(!listPopover)
   };
 
-  const openPopover = Boolean(popoverAnchor);
-  const id = openPopover ? "simple-popover" : undefined;
 
-  const [listAnchorEl, setListAnchorEl] = React.useState(null);
-
-  const handleSearchClick = (event) => {
-    setListAnchorEl(event.currentTarget);
-  };
-
-  const handleListClose = () => {
-    setListAnchorEl(null);
-  };
-
-  const openList = Boolean(listAnchorEl);
 
   const [value, setValue] = React.useState();
   const [inputValue, setInputValue] = React.useState("");
@@ -122,29 +114,18 @@ function Share({ label, button = "primary", backgroundColor = "#ffffff" }) {
 
   const handleInvite = () => {
     setUserList(value);
-    setListAnchorEl(null);
     setValue();
   };
 
   return (
     <div style={{backgroundColor : `${backgroundColor}`}}>
  
-      <Button onClick={handleShareClick} color={button} variant="contained" endIcon={<ShareIcon />}>
+      <button onClick={handleShareClick} class="button-4">
   {label}
-</Button>
-      <Popover
-        id={id}
-        open={openPopover}
-        anchorEl={popoverAnchor}
-        onClose={handleShareClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
-        sx={{
-          marginTop: "10px"
-        }}
-      >
+</button>
+
+{/* first popover open */}
+<div class="popover">
         <div
           style={{
             display: "flex",
@@ -153,7 +134,6 @@ function Share({ label, button = "primary", backgroundColor = "#ffffff" }) {
             alignItems: "center",
             margin: "18px",
             justifyContent: "space-between",
-            width: "320px",
           }}
         >
           <div
@@ -270,7 +250,7 @@ function Share({ label, button = "primary", backgroundColor = "#ffffff" }) {
             marginLeft: "18px",
             marginRight: "18px",
             justifyContent: "space-between",
-            width: "320px",
+            
           }}
         >
           <div
@@ -517,24 +497,11 @@ function Share({ label, button = "primary", backgroundColor = "#ffffff" }) {
             <Typography variant="caption">Copy link</Typography>
           </div>
         </div>
-      </Popover>
 
-      <Popover
-        id={id}
-        anchorReference="anchorPosition"
-        open={openList}
-        anchorEl={listAnchorEl}
-        onClose={handleListClose}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "left",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "left",
-        }}
-        anchorPosition={{ top: 200, left: 420 }}
-      >
+        </div>
+{/* first popover close */}
+{/* second popover open */}
+ <div  class="popoverList">
         <div
           style={{
             display: "flex",
@@ -722,7 +689,9 @@ function Share({ label, button = "primary", backgroundColor = "#ffffff" }) {
             </div>
           </div>
         </div>
-      </Popover>
+        </div>
+{/* second popover close */}
+
     </div>
   );
 }
