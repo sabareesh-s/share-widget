@@ -15,10 +15,10 @@ https://www.figma.com/file/yGNkrEsc69Zqyx5cWSKiT3/Front-end-assignment?node-id=0
 To share the notes file with ease, when the share button is clicked, a 'popover' appears. The interface is very simple, all the important details including an Invite button, and the users currently with access are displayed up front. When the invite button is clicked, it opens another popover for the user to easily access the area to add other users to collaborate in the file. The users and groups are displayed as chips which can be closed individially. This gives the users the flexibility they need to add or remove users with ease. Then, the invite button triggers the function to add all the users or groups with the specific permission set.
 
 ## Share widget
-![image](https://user-images.githubusercontent.com/87223017/190962226-991fbf9a-2497-48e0-9b5c-bade4414de9a.png)
+![image](https://user-images.githubusercontent.com/87223017/194030964-1604278d-53e5-4d30-8c27-06eb914b8fb3.png)
 
 ## Popover to add users and groups
-![image](https://user-images.githubusercontent.com/87223017/190962234-8da5e7c0-123f-4df1-bed2-2223a22ef987.png)
+![image](https://user-images.githubusercontent.com/87223017/194030988-586326ee-ae20-4fac-a002-c935780e311e.png)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
