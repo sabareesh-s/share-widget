@@ -1,10 +1,10 @@
 # Notion share widget clone
 
-This project is a clone for the Notion share widget. The packages and libraries used are, Material UI v5, React, Mui Icons and Storybook. The screenshots are attached below for you to take a look. To run it in your browser, just clone the github repo and run the script 'npm start'. A live version of the website is hosted here (https://shimmering-daifuku-a5230d.netlify.app/) for your convinience. If you want to run storybook, please clone the repo locally and run 'npm run storybook'.
+This project is a clone for the Notion share widget. The packages and libraries used are, Material UI v5, React, Mui Icons and Storybook. The screenshots are attached below for you to take a look. To run it in your browser, just clone the github repo and run the script 'npm start'. A live version of the website is hosted here (https://venerable-paprenjak-e21dca.netlify.app/) for your convinience. If you want to run storybook, please clone the repo locally and run 'npm run storybook'.
 
 ## Live link hosted in netlify
 
-https://shimmering-daifuku-a5230d.netlify.app/
+https://venerable-paprenjak-e21dca.netlify.app/
 
 ## Figma link
 
